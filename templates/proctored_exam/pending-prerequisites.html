@@ -1,0 +1,40 @@
+{% load i18n %}
+<div class="warning sequence proctored-exam entrance" data-exam-id="{{exam_id}}">
+  <h3>
+    {% blocktrans %}
+      This exam is proctored
+    {% endblocktrans %}
+  </h3>
+  <p>
+    {% blocktrans %}
+    You have not completed the prerequisites for this exam. All requirements must be satisfied before you can take this proctored exam.
+    {% endblocktrans %}
+  </p>
+  <p>
+    {% blocktrans %}
+    The following prerequisites are in a <strong>pending</strong> state and must be successfully completed before you can proceed:
+    {% endblocktrans %}
+    <ol style='list-style-type: disc'>
+    {% for requirement in prerequisite_status.pending_prerequisites %}
+      <li>
+        {% if requirement.jumpto_url %}
+          <a href='{{requirement.jumpto_url}}'>{{requirement.display_name}}</a>
+        {% else %}
+          {{requirement.display_name}}
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ol>
+  </p>
+  <p>
+    {% blocktrans %}
+    You can take this exam with proctoring only when all prerequisites have been successfully completed.
+    {% endblocktrans %}
+  </p>
+
+  {% if allow_proctoring_opt_out %}
+    {% include 'proctored_exam/proctoring_opt_out_button.html' %}
+  {% endif %}
+</div>
+{% include 'proctored_exam/confirm-decline.html' %}
+{% include 'proctored_exam/footer.html' %}

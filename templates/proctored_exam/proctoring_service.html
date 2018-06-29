@@ -1,0 +1,14 @@
+{% load i18n %}
+
+<div class="field">
+    <label class="field-label" for="proctoring_service_select">{% trans "Select Proctoring Service" %}</label>
+    <select class="field-input input-select has-error" id="proctoring_service_select" name="proctoring_service_select">
+        <option value="">- Choose one -</option>
+            {% for service in available_proctoring_services %}
+                <option value="{{service}}">{{service}}</option>
+            {% endfor %}
+    </select>
+</div>
+<br>
+
+

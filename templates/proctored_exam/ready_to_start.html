@@ -1,0 +1,83 @@
+{% load i18n %}
+<div class="sequence proctored-exam success-left-bar instructions" data-exam-id="{{exam_id}}" data-exam-started-poll-url="{{exam_started_poll_url}}">
+  <div>
+    <h3>
+    {% blocktrans %}
+      Important
+    {% endblocktrans %}
+    </h3>
+    <p>
+      {% blocktrans %}
+        &#8226; You have {{ total_time }} to complete this exam. </br>
+        &#8226; You cannot stop the timer after you start the exam. </br>
+        &#8226; If time expires before you click <strong>End My Exam</strong>, your submitted answers will be graded. For all question types, you must click <strong>Submit</strong> to submit your answers.
+      {% endblocktrans %}</br>
+    </p>
+    <h3>
+    {% blocktrans %}
+      Proctored Exam Rules
+    {% endblocktrans %}
+    </h3>
+    <p>
+      {% blocktrans %}
+         You must adhere to the following rules while you complete this exam.
+         <strong>If you violate these rules, you will receive a score of 0 on the exam, and you will not be eligible for academic course credit.
+         </strong></br>
+      {% endblocktrans %}
+        <a href="{{link_urls.online_proctoring_rules}}" target="_blank">
+      {% blocktrans %}
+          {{ platform_name }} Rules for Online Proctored Exams
+      {% endblocktrans %}
+        </a> </br>
+    </p>
+    {% if exam_review_policy %}
+    <h3>
+    {% blocktrans %}
+      Additional Exam Rules
+    {% endblocktrans %}
+    </h3>
+    <p>
+      {% blocktrans %}
+        The following additional rules apply to this exam. These rules take precedence over the Rules for Online Proctored Exams.</br> </br>
+
+        {{ exam_review_policy }} </br>
+      {% endblocktrans %}
+    </p>
+    {% endif %}
+    <div>
+      <button type="button" class="exam-action-button proctored-enter-exam btn btn-pl-primary btn-base" data-action="start" data-exam-id="{{exam_id}}" data-change-state-url="{{change_state_url}}">
+        {% blocktrans %}
+          Start my exam
+        {% endblocktrans %}
+      </button>
+    </div>
+  </div>
+</div>
+{% include 'proctored_exam/footer.html' %}
+
+<script type="text/javascript">
+
+  $('.proctored-enter-exam').click(
+    function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      var action_url = $(this).data('change-state-url');
+      var exam_id = $(this).data('exam-id');
+      var action = $(this).data('action');
+
+      // Update the state of the attempt
+      $.ajax({
+        url: action_url,
+        type: 'PUT',
+        data: {
+          action: action
+        },
+        success: function() {
+          // Reloading page will reflect the new state of the attempt
+          location.reload();
+        }
+      });
+    }
+  );
+</script>

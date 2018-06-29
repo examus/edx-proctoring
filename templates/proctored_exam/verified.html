@@ -1,0 +1,11 @@
+{% load i18n %}
+<div class="success sequence proctored-exam passed" data-exam-id="{{exam_id}}">
+  <h3>
+    {% blocktrans %}
+      Your proctoring session was reviewed and passed all requirements
+    {% endblocktrans %}
+  </h3>
+
+    {% include 'proctored_exam/visit_exam_content.html' %}
+</div>
+{% include 'proctored_exam/footer.html' %}
